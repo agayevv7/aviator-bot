@@ -21,7 +21,7 @@ def keep_alive():
     t.start()
 
 # --- AYARLAR --- BURANI DƏYİŞ
-TOKEN = os.environ.get('BOT_TOKEN')  ✅
+TOKEN = os.environ.get('BOT_TOKEN')  
 ADMIN_ID = 2083084323
 YOUTUBE_URL = "https://youtu.be/QHPnYAeUPnU?si=WlqW1xphnaLTLbz9"
 REGISTER_URL = "https://1weucj.life/?open=register&p=mlg1"
