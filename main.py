@@ -161,20 +161,23 @@ def callback_logic(call):
         save_db(user_db)
 
         rules_text = (
-            "💎 VIP AKTİVASİYA PROSEDURU\n"
+                    rules_text = (
+            "💎 VIP STATUS AKTİVASİYASI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
-            "⚡️ Maksimum performans üçün aşağıdakı addımları tamamlayın:\n\n"
-            f"1️⃣ Rəsmi YouTube Kanalı\n"
-            f" Link: {YOUTUBE_URL}\n"
-            f" Abunəlik və bildirişlər aktiv edilməlidir\n"
-            f" Təsdiq üçün screenshot göndərin 📸\n\n"
-            f"2️⃣ Tərəfdaş 1WIN Hesabı\n"
-            f" Link: {REGISTER_URL}\n"
-            f" Promo kod: yatirimsahesi\n"
-            f" Qeydiyyat tamamlandıqdan sonra screenshot göndərin 📸\n\n"
+            "⚡️ 95% dəqiq siqnallar üçün 2 addımı tamamla:\n\n"
+            f"1️⃣ YouTube Kanalımıza Abunə Ol\n"
+            f"👉 {YOUTUBE_URL}\n"
+            f"🔔 Zınqırovu aç və ekran şəkli at 📸\n\n"
+            f"2️⃣ Yeni 1WIN Hesabı Aç\n"
+            f"👉 {REGISTER_URL}\n"
+            f"🎁 Promo kod: yatirimsahesi\n"
+            f"✅ Qeydiyyatdan sonra ID-nin ekran şəklini at 📸\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "✅ Hər iki mərhələ təsdiqləndikdən sonra VIP giriş avtomatik aktivləşdiriləcək.\n"
-            "📌 Qeyd: Şəkillər aydın və tam ölçüdə olmalıdır."
+            "⏱ Hər iki şəkil gəldikdən 2 dəqiqə sonra VIP aktivləşir\n"
+            "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir\n"
+            "❗️ Şəkillər tam ekran və aydın olsun"
+        )
+        bot.send_message(uid, rules_text, disable_web_page_preview=True)
         )
         bot.send_message(uid, rules_text, disable_web_page_preview=True)
 
@@ -306,18 +309,18 @@ def broadcast_signal(message):
     try:
         vaxt = message.text.split(maxsplit=1)[1]
         vip_signal = (
-            "🔥 VIP TƏCİLİ SİQNAL 🔥\n"
-            "━━━━━━━━━━━━━━━━━━\n\n"
-            f"✈️ Aviator Siqnalı\n\n"
-            f"⏰ GİRİŞ VAXTI: {vaxt}\n"
-            f"🎯 HƏDƏF ARALIĞI: 10x - 99x\n"
-            f"📊 DƏQİQLİK: 95%\n"
-            f"⚡️ GECİKMƏ: 0.1 san\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "💰 DƏRHAL GİRİŞ EDİN"
+            "🔥 **VIP Siqnal**\n"
+            "─────────────────\n"
+            f"✈️ Aviator\n"
+            f"⏰ Giriş: `{vaxt}`\n"
+            f"🎯 Hədəf -- Bu dəqiqələrdə qırmızı əmsal gəcələk: `10x - 99x`\n"
+            f"📊 Dəqiqlik: `95%`\n"
+            f"⚡️ Gecikmə: `0.1s`\n"
+            "─────────────────\n"
+            "💰 **İndi giriş et**"
         )
         locked_signal = (
-            "🔥 YENİ SİQNAL MÖVCUDDUR 🔥\n"
+            "🔥 YENİ SİQNAL 🔥\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
             f"✈️ Aviator Siqnalı\n\n"
             f"⏰ Giriş vaxtı: 🔒 KİLİDLİ\n"
