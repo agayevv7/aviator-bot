@@ -21,7 +21,7 @@ def keep_alive():
     t.start()
 
 # --- AYARLAR --- BURANI DƏYİŞ
-TOKEN = os.environ.get('BOT_TOKEN')  
+TOKEN = os.environ.get('BOT_TOKEN')
 ADMIN_ID = 2083084323
 YOUTUBE_URL = "https://youtu.be/QHPnYAeUPnU?si=WlqW1xphnaLTLbz9"
 REGISTER_URL = "https://1weucj.life/?open=register&p=mlg1"
@@ -142,7 +142,7 @@ def callback_logic(call):
                 uid, call.message.message_id
             )
         except Exception as e: print(e)
-        
+
     elif call.data == "show_rules":
         # YOXLA: TEST ETMƏYİB VIP OLA BİLMƏZ
         if not test_used and user_status not in ['test_sent', 'vip', 'awaiting_proof'] and int(uid)!= ADMIN_ID:
@@ -299,58 +299,39 @@ def handle_proofs(message):
                 f"━━━━━━━━━━━━",
                 reply_markup=markup
             )
+
 @bot.message_handler(commands=['aviator'])
 def broadcast_signal(message):
-    if message.from_user.id!= ADMIN_ID: return
+    if message.from_user.id!= ADMIN_ID:
+        return
     try:
-        vaxt = message.text.split(maxsplit=1)[1]
-                    vip_signal = (
-            "🔥 VIP TƏCİLİ SİQNAL 🔥\n"
-            "━━━━━━━━━━━━━━━━━━\n\n"
-            "✈️ Aviator Siqnalı\n\n"
-            f"⏰ GİRİŞ VAXTI: {vaxt}\n"
-            "🎯 HƏDƏF: 10x - 99x\n"
-            "📊 DƏQİQLİK: 95%\n"
-            "⚡️ GECİKMƏ: 0.1 san\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "💰 DƏRHAL GİRİŞ EDİN"
-        )
-        locked_signal = (
-            "🔥 YENİ SİQNAL 🔥\n"
-            "━━━━━━━━━━━━━━━━━━\n\n"
-            f"✈️ Aviator Siqnalı\n\n"
-            f"⏰ Giriş vaxtı: 🔒 KİLİDLİ\n"
-            f"❗️Çəhrayı əmsala bu dəqiqə aralıqında qalxacaq. ⚠️\n"
-            f"📊 Proqnoz faizi: 95%\n\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "🔓 Giriş vaxtını açmaq üçün:\n"
-            f"1️⃣ Aşağıdakı linklə qeydiyyatdan keçərək mütləq yeni hesab aç. Əks halda gecikmə baş verəcək. {REGISTER_URL}\n"
-            f"2️⃣ Təsdiq sənədi təqdim edin."
-        )
+        parts = message.text.split(maxsplit=1)
+        if len(parts) < 2:
+            bot.reply_to(message, "❌ Format: /aviator VAXT\nNümunə: /aviator 14:20-14:25")
+            return
+        vaxt = parts[1]
+        vip_signal = "🔥 VIP TƏCİLİ SİQNAL 🔥\n━━━━━━━━━━━━━━━━━━\n\n✈️ Aviator Siqnalı\n\n⏰ GİRİŞ VAXTI: " + vaxt + "\n🎯 HƏDƏF: 10x - 99x\n📊 DƏQİQLİK: 95%\n⚡️ GECİKMƏ: 0.1 san\n━━━━━━━━━━━━━━━━━━\n💰 DƏRHAL GİRİŞ EDİN"
+        locked_signal = "🔒 YENİ SİQNAL 🔒\n─────────────────\n✈️ Aviator Siqnalı\n⏰ Giriş vaxtı: KİLİDLİ\n❗️ Əmsal bu dəqiqə aralığında qalxacaq\n📊 Proqnoz faizi: 95%\n─────────────────\n🔓 Giriş vaxtını açmaq üçün:\n1️⃣ Aşağıdakı linklə qeydiyyatdan keç\n2️⃣ Təsdiq şəkli göndər"
         markup = telebot.types.InlineKeyboardMarkup()
-        markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules"))
-
+        markup.add(telebot.types.InlineKeyboardButton("🎁 Qeydiyyat", url=REGISTER_URL))
         sent_vip, sent_locked = 0, 0
         for u_id, data in user_db.items():
-            if data.get('status') == 'banned': continue
+            if data.get('status') == 'banned':
+                continue
             try:
                 if data.get('status') == 'vip':
                     bot.send_message(u_id, vip_signal)
                     sent_vip += 1
                 else:
-                    bot.send_message(u_id, locked_signal, reply_markup=markup, disable_web_page_preview=True)
+                    bot.send_message(u_id, locked_signal, reply_markup=markup)
                     sent_locked += 1
                 time.sleep(0.05)
-            except: pass
-        bot.reply_to(message,
-            f"📢 PAYLANIŞ TAMAMLANDI\n"
-            f"━━━━━━━━━━━━\n"
-            f"💎 VIP: {sent_vip}\n"
-            f"🔒 Standart: {sent_locked}\n"
-            f"━━━━━━━━━━━━"
-        )
-    except:
-        bot.reply_to(message, "❌ Format: /aviator VAXT\nNümunə: /aviator 14:20-14:25")
+            except:
+                pass
+        bot.reply_to(message, f"✅ PAYLANIŞ TAMAMLANDI\n\n💎 VIP: {sent_vip}\n🔒 Standart: {sent_locked}")
+    except Exception as e:
+        bot.reply_to(message, f"❌ Xəta: {e}")
+
 @bot.message_handler(commands=['msg'])
 def admin_message(message):
     if message.from_user.id!= ADMIN_ID: return
