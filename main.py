@@ -125,7 +125,6 @@ def callback_logic(call):
                 )
             )
             return
-
         try:
             bot.send_message(ADMIN_ID,
                 f"🧪 YENİ TEST SORĞUSU\n"
@@ -136,14 +135,14 @@ def callback_logic(call):
                 f"━━━━━━━━━━━━\n"
                 f"Komanda: /test {uid} 14:20-14:22"
             )
-                    bot.edit_message_text(
-        "✅ Sorğunuz alındı\n\n"
-        "👨‍💻 Admin sizə uyğun test siqnalı göndərəcək\n"
-        "⏳ Zəhmət olmasa gözləyin...",
-        uid, call.message.message_id
-    )
+            bot.edit_message_text(
+                "✅ Sorğunuz alındı\n\n"
+                "👨‍💻 Admin sizə uyğun test siqnalı göndərəcək\n"
+                "⏳ Zəhmət olmasa gözləyin...",
+                uid, call.message.message_id
+            )
         except Exception as e: print(e)
-
+        
     elif call.data == "show_rules":
         # YOXLA: TEST ETMƏYİB VIP OLA BİLMƏZ
         if not test_used and user_status not in ['test_sent', 'vip', 'awaiting_proof'] and int(uid)!= ADMIN_ID:
