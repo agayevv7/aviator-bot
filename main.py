@@ -142,7 +142,6 @@ def callback_logic(call):
         "⏳ Zəhmət olmasa gözləyin...",
         uid, call.message.message_id
     )
-            )
         except Exception as e: print(e)
 
     elif call.data == "show_rules":
