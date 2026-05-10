@@ -170,7 +170,7 @@ def callback_logic(call):
             f"2️⃣  🔸 Vacib şərtlərdən biri yeni 1WIN hesabı açmaqdır.\n"
             f"👉 {REGISTER_URL}\n"
             f"🎁 Promo kod: yatirimsahesi\n"
-            f"✅ Qeydiyyatdan sonra yeni açdığınız hesabın ID-sinin ekran şəklini göndərin. 📸\n\n"
+            f"✅ Qeydiyyatdan sonra yeni açdığınız hesabın ID-sinin ekran şəklini göndərin.\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
             "⏱ Hər iki şəkil gəldikdən sonra VIP aktivləşdirmə mərhələsinə avtomatik yoxlamalar başlayır.\n"
             "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir.\n"
