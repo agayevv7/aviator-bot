@@ -164,17 +164,17 @@ def callback_logic(call):
             "💎 VIP STATUS AKTİVASİYASI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
             "⚡️ 95% dəqiq siqnallar üçün 2 addımı tamamla:\n\n"
-            f"1️⃣ YouTube Kanalımıza Abunə Ol\n"
+            f"1️⃣ İlk Öncə YouTube Kanalımıza Abunə Olun.\n"
             f"👉 {YOUTUBE_URL}\n"
-            f"🔔 Zınqırovu aç və ekran şəkli at 📸\n\n"
-            f"2️⃣ Yeni 1WIN Hesabı Aç\n"
+            f"🔔 Zınqırovu açın, abunə olun və ekran şəkli atın. 📸\n\n"
+            f"2️⃣  VACİB ŞƏRT !! Yeni 1WIN Hesabı Açın.\n"
             f"👉 {REGISTER_URL}\n"
             f"🎁 Promo kod: yatirimsahesi\n"
-            f"✅ Qeydiyyatdan sonra ID-nin ekran şəklini at 📸\n\n"
+            f"✅ Qeydiyyatdan sonra YENİ AÇDIĞINIZ HEASABIN ID-nin ekran şəklini atın. 📸\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "⏱ Hər iki şəkil gəldikdən 2 dəqiqə sonra VIP aktivləşir\n"
-            "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir\n"
-            "❗️ Şəkillər tam ekran və aydın olsun"
+            "⏱ Hər iki şəkil gəldikdən sonra VIP aktivləşdirmə mərhələsinə avtomatik yoxlamalar başlayır.\n"
+            "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir.\n"
+            "❗️ Şəkillər tam ekran və aydın olsun."
         )
         bot.send_message(uid, rules_text, disable_web_page_preview=True)
 
@@ -229,11 +229,11 @@ def admin_test(message):
             save_db(user_db)
 
         bot.send_message(target_id,
-            "📡 SİQNAL HAZIRLIQ MƏRHƏLƏSİ\n"
+            "📡 SİQNAL HAZIRLANIR...\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "⏳ Test siqnalı 10-15 saniyə ərzində təqdim ediləcək.\n\n"
-            "📲 Xahiş: Cihazı nəzarətdə saxlayın.\n"
-            "⚠️ Qeyd: Bu siqnal nümunəvi gecikmə ilə göndərilir."
+            "⏳ Test siqnalı 10-15 saniyə ərzində sizə təqdim ediləcək.\n\n"
+            "📲 MÜTLƏQ: Cihazı nəzarətdə saxlayın.\n"
+            "⚠️ Qeyd: Bu siqnal nümunəvi gecikmə ilə göndəriləcək."
         )
 
         bot.send_message(ADMIN_ID, f"✅ Hazırlıq bildirişi göndərildi. 10 saniyə sonra siqnal çatdırılacaq.\nİstifadəçi: {target_id}")
@@ -243,9 +243,9 @@ def admin_test(message):
             "🧪 TEST SİQNALI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
             f"⏰ Vaxt Aralığı: {vaxt}\n"
-            f"🎮 Oyun: Aviator\n"
-            f"🎰 Platforma: 1WIN\n"
-            f"🔗 Oyun Mühitinə Keçid: {AVIATOR_URL}\n\n"
+            f"🎮 Oyun Adı: Aviator\n"
+            f"🎰 Rəsmi Sayt: 1WIN\n"
+            f"🔗 Birbaşa oyuna keçid: {AVIATOR_URL}\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
             "🐌 Qeyd: Bu siqnalda ~10 saniyə gecikmə müşahidə edildi.\n"
             "💎 VIP sistemdə gecikmə cəmi 0.1 saniyə təşkil edir.\n\n"
@@ -310,7 +310,7 @@ def broadcast_signal(message):
             bot.reply_to(message, "❌ Format: /aviator VAXT\nNümunə: /aviator 14:20-14:25")
             return
         vaxt = parts[1]
-        vip_signal = "🔥 VIP TƏCİLİ SİQNAL 🔥\n━━━━━━━━━━━━━━━━━━\n\n✈️ Aviator Siqnalı\n\n⏰ GİRİŞ VAXTI: " + vaxt + "\n🎯 HƏDƏF: 10x - 99x\n📊 DƏQİQLİK: 95%\n⚡️ GECİKMƏ: 0.1 san\n━━━━━━━━━━━━━━━━━━\n💰 DƏRHAL GİRİŞ EDİN"
+        vip_signal = "🔥 TƏCİLİ VIP SİQNAL 🔥\n━━━━━━━━━━━━━━━━━━\n\n✈️ Aviator Siqnalı\n\n⏰ GİRİŞ VAXTI: " + vaxt + "\n🎯 HƏDƏF: 10x + Yüksək Çəhrayı Əmsal\n📊 DƏQİQLİK: 95%\n⚡️ GECİKMƏ: 0.1 san\n━━━━━━━━━━━━━━━━━━\n💰 Oyuna Giriş Edin Və Canlı Müşahidə Aparın"
         locked_signal = "🔒 YENİ SİQNAL 🔒\n─────────────────\n✈️ Aviator Siqnalı\n⏰ Giriş vaxtı: KİLİDLİ\n❗️ Əmsal bu dəqiqə aralığında qalxacaq\n📊 Proqnoz faizi: 95%\n─────────────────\n🔓 Giriş vaxtını açmaq üçün:\n1️⃣ Aşağıdakı linklə qeydiyyatdan keç\n2️⃣ Təsdiq şəkli göndər"
         markup = telebot.types.InlineKeyboardMarkup()
         markup.add(telebot.types.InlineKeyboardButton("🎁 Qeydiyyat", url=REGISTER_URL))
