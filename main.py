@@ -74,22 +74,18 @@ def start(message):
             markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules"))
 
     msg = (
-        f"Xoş gəldiniz, {message.from_user.first_name}\n"
-        "━━━━━━━━━━━━━━━━━━\n"
-        "✈️ AVIATOR PRO SIGNAL\n"
-        "Peşəkar Analitik Siqnal Sistemi\n"
-        "━━━━━━━━━━━━━━━━━━\n\n"
-        "🧪 STANDART PAKET\n"
-        "📊 Dəqiqlik: 70%\n"
+        f"👋 Salam {message.from_user.first_name}\n\n"
+        "✈️ Aviator Siqnal Botu\n\n"
+        "🔹 STANDART PAKET\n"
+        "✅ Dəqiqlik: 70%\n"
         "⏱ Gecikmə: 5-10 saniyə\n"
-        "🎁 1 pulsuz test siqnalı mövcuddur\n\n"
-        "💎 VIP PAKET\n"
-        "📊 Dəqiqlik: 95%\n"
+        "🎁 1 pulsuz test\n\n"
+        "🔸 VIP PAKET\n"
+        "✅ Dəqiqlik: 95%\n"
         "⚡️ Gecikmə: 0.1 saniyə\n"
-        "🎯 Aktivasiya: Pulsuz\n\n"
-        f"📌 VIP giriş üçün yeni 1WIN hesabı tələb olunur\n"
-        f"👉 Qeydiyyat: {REGISTER_URL}\n"
-        "━━━━━━━━━━━━━━━━━━"
+        "🆓 Aktivasiya: Pulsuz\n\n"
+        "❗️ VIP üçün yeni 1WIN hesabı şərtdir\n"
+        f"🔗 Qeydiyyat: {REGISTER_URL}"
     )
     bot.send_message(uid, msg, reply_markup=markup, disable_web_page_preview=True)
 
@@ -140,14 +136,12 @@ def callback_logic(call):
                 f"━━━━━━━━━━━━\n"
                 f"Komanda: /test {uid} 14:20-14:22"
             )
-            bot.edit_message_text(
-                "⏳ Sorğunuz Qəbul Edildi\n"
-                "━━━━━━━━━━━━━━━━━━\n"
-                "Test siqnalı analitik tərəfindən hazırlanır.\n\n"
-                "📲 Proses: Əvvəlcə 'Hazırlıq' bildirişi alacaqsınız.\n"
-                "Bildirişdən 10-15 saniyə sonra siqnal göndəriləcək.\n\n"
-                "Xahiş olunur gözləmədə qalın.",
-                uid, call.message.message_id
+                bot.edit_message_text(
+        "✅ Sorğunuz alındı\n\n"
+        "👨‍💻 Admin sizə uyğun test siqnalı göndərəcək\n"
+        "⏳ Zəhmət olmasa gözləyin...",
+        uid, call.message.message_id
+    )
             )
         except Exception as e: print(e)
 
