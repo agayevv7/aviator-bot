@@ -161,7 +161,6 @@ def callback_logic(call):
         save_db(user_db)
 
         rules_text = (
-                    rules_text = (
             "💎 VIP STATUS AKTİVASİYASI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
             "⚡️ 95% dəqiq siqnallar üçün 2 addımı tamamla:\n\n"
@@ -176,8 +175,6 @@ def callback_logic(call):
             "⏱ Hər iki şəkil gəldikdən 2 dəqiqə sonra VIP aktivləşir\n"
             "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir\n"
             "❗️ Şəkillər tam ekran və aydın olsun"
-        )
-        bot.send_message(uid, rules_text, disable_web_page_preview=True)
         )
         bot.send_message(uid, rules_text, disable_web_page_preview=True)
 
