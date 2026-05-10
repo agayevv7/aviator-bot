@@ -167,7 +167,7 @@ def callback_logic(call):
             f"1️⃣ İlk Öncə YouTube Kanalımıza Abunə Olun.\n"
             f"👉 {YOUTUBE_URL}\n"
             f"🔔 Zınqırovu açın, abunə olun və ekran şəkli atın. 📸\n\n"
-            f"2️⃣  Vacib Şərtlərdən biri:  Yeni 1WIN Hesabı Açın.\n"
+            f"2️⃣  🔸 Vacib şərtlərdən biri yeni 1WIN hesabı açmaqdır.\n"
             f"👉 {REGISTER_URL}\n"
             f"🎁 Promo kod: yatirimsahesi\n"
             f"✅ Qeydiyyatdan sonra YENİ AÇDIĞINIZ HEASABIN ID-nin ekran şəklini atın. 📸\n\n"
