@@ -28,9 +28,10 @@ REGISTER_URL = "https://1weucj.life/?open=register&p=mlg1"
 AVIATOR_URL = "https://1weucj.life/?open=register&p=mlg1"
 
 bot = telebot.TeleBot(TOKEN)
-DB_FILE = "database.json"
+DB_FILE = "/data/database.json"
 
 def load_db():
+    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
     if os.path.exists(DB_FILE):
         try:
             with open(DB_FILE, 'r', encoding='utf-8') as f:
