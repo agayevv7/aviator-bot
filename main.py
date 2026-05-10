@@ -136,7 +136,7 @@ def callback_logic(call):
                 f"━━━━━━━━━━━━\n"
                 f"Komanda: /test {uid} 14:20-14:22"
             )
-                bot.edit_message_text(
+                    bot.edit_message_text(
         "✅ Sorğunuz alındı\n\n"
         "👨‍💻 Admin sizə uyğun test siqnalı göndərəcək\n"
         "⏳ Zəhmət olmasa gözləyin...",
