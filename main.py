@@ -52,7 +52,7 @@ def is_banned(uid):
 def start(message):
     uid = str(message.chat.id)
     if is_banned(uid):
-        bot.send_message(uid, "⛔ GİRİŞ MƏHDUDLAŞDIRILDI\n\n📞 Dəstək: @Support")
+        bot.send_message(uid, "⛔ Giriş Məhdudlaşdırılıb\n\nDəstək xidməti ilə əlaqə saxlayın.")
         return
 
     if uid not in user_db:
@@ -63,31 +63,31 @@ def start(message):
     test_used = user_db[uid].get('test_used', False)
 
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
+    # ADMIN ÜÇÜN HƏMİŞƏ DÜYMƏLƏR VAR
     if int(uid) == ADMIN_ID:
-        markup.add(telebot.types.InlineKeyboardButton("🧪 Test Siqnal", callback_data="test_req"))
-        markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktiv Et", callback_data="show_rules"))
+        markup.add(telebot.types.InlineKeyboardButton("🧪 Test Siqnalı", callback_data="test_req"))
+        markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules"))
     else:
         if not test_used and user_status!= 'vip':
-            markup.add(telebot.types.InlineKeyboardButton("🧪 Pulsuz Test", callback_data="test_req"))
+            markup.add(telebot.types.InlineKeyboardButton("🧪 Test Siqnalı", callback_data="test_req"))
         if user_status!= 'vip':
-            markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktiv Et", callback_data="show_rules"))
+            markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules"))
 
     msg = (
-        f"👋 Xoş gəldin, {message.from_user.first_name}\n\n"
-        "✈️ <b>AVIATOR PRO SİQNAL</b>\n"
-        "━━━━━━━━━━━━━━━━━━\n\n"
-        "🆓 <b>STANDART</b>\n"
-        "• Dəqiqlik: 70%\n"
-        "• Gecikmə: 5-10 san\n"
-        "• Test: 1 pulsuz\n\n"
-        "💎 <b>VIP PRO</b>\n"
-        "• Dəqiqlik: 95%+\n"
-        "• Gecikmə: 0.1 san\n"
-        "• Aktivasiya: Pulsuz\n\n"
-        "⚠️ <i>VIP üçün yeni 1WIN hesabı şərtdir</i>\n"
+        f"👋 Salam {message.from_user.first_name}\n\n"
+        "✈️ Aviator Siqnal Botu\n\n"
+        "🔹 STANDART PAKET\n"
+        "✅ Dəqiqlik: 70%\n"
+        "⏱ Gecikmə: 5-10 saniyə\n"
+        "🎁 1 pulsuz test\n\n"
+        "🔸 VIP PAKET\n"
+        "✅ Dəqiqlik: 95%\n"
+        "⚡️ Gecikmə: 0.1 saniyə\n"
+        "🆓 Aktivasiya: Pulsuz\n\n"
+        "❗️ VIP üçün yeni 1WIN hesabı şərtdir\n"
         f"🔗 Qeydiyyat: {REGISTER_URL}"
     )
-    bot.send_message(uid, msg, reply_markup=markup, disable_web_page_preview=True, parse_mode='HTML')
+    bot.send_message(uid, msg, reply_markup=markup, disable_web_page_preview=True)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_logic(call):
@@ -99,57 +99,60 @@ def callback_logic(call):
     test_used = user_data.get('test_used', False)
 
     if call.data == "test_req":
+        # ADMIN ÜÇÜN LİMİT YOXDU - birbaşa keçir
         if int(uid) == ADMIN_ID:
             try:
                 bot.send_message(ADMIN_ID,
-                    f"🧪 <b>ADMİN TEST</b>\n"
+                    f"🧪 ADMİN TEST SORĞUSU\n"
                     f"━━━━━━━━━━━━\n"
-                    f"Komanda: <code>/test {uid} 14:20-14:22</code>", parse_mode='HTML'
+                    f"Komanda: /test {uid} 14:20-14:22"
                 )
-                bot.answer_callback_query(call.id, "Admin test sorğusu")
+                bot.answer_callback_query(call.id, "Admin test sorğusu göndərildi")
             except Exception as e: print(e)
             return
 
+        # USER ÜÇÜN YOXLA: ƏVVƏL TEST ALIB?
         if test_used or user_status in ['test_sent', 'vip']:
-            bot.answer_callback_query(call.id, "❌ Test limitin bitib", show_alert=True)
+            bot.answer_callback_query(call.id, "❌ Siz artıq test siqnalından istifadə etmisiniz", show_alert=True)
             bot.edit_message_text(
-                "⚠️ <b>TEST LİMİTİ</b>\n"
+                "⚠️ TEST LİMİTİ DOLUB\n"
                 "━━━━━━━━━━━━━━━━━━\n"
-                "Hər user yalnız 1 test ala bilər.\n\n"
-                "💎 VIP-ə keçmək üçün aşağıdakı düymə:",
+                "Hər istifadəçi yalnız 1 dəfə test siqnalı ala bilər.\n\n"
+                "💎 VIP sistemə keçmək üçün aşağıdakı düymədən istifadə edin.",
                 uid, call.message.message_id,
                 reply_markup=telebot.types.InlineKeyboardMarkup().add(
-                    telebot.types.InlineKeyboardButton("💎 VIP Aktiv Et", callback_data="show_rules")
-                ), parse_mode='HTML'
+                    telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules")
+                )
             )
             return
         try:
             bot.send_message(ADMIN_ID,
-                f"🧪 <b>YENİ TEST</b>\n"
+                f"🧪 YENİ TEST SORĞUSU\n"
                 f"━━━━━━━━━━━━\n"
-                f"👤 @{call.from_user.username}\n"
-                f"🆔 <code>{uid}</code>\n"
-                f"📅 {time.strftime('%d.%m.%Y %H:%M')}\n"
+                f"👤 İstifadəçi: @{call.from_user.username}\n"
+                f"🆔 ID: {uid}\n"
+                f"📅 Tarix: {time.strftime('%d.%m.%Y %H:%M')}\n"
                 f"━━━━━━━━━━━━\n"
-                f"Komanda: <code>/test {uid} 14:20-14:22</code>", parse_mode='HTML'
+                f"Komanda: /test {uid} 14:20-14:22"
             )
             bot.edit_message_text(
-                "✅ <b>Sorğu alındı</b>\n\n"
-                "👨‍💻 Admin sənə test göndərəcək\n"
-                "⏳ Gözlə...",
-                uid, call.message.message_id, parse_mode='HTML'
+                "✅ Sorğunuz alındı\n\n"
+                "👨‍💻 Admin sizə uyğun test siqnalı göndərəcək\n"
+                "⏳ Zəhmət olmasa gözləyin...",
+                uid, call.message.message_id
             )
         except Exception as e: print(e)
 
     elif call.data == "show_rules":
+        # YOXLA: TEST ETMƏYİB VIP OLA BİLMƏZ
         if not test_used and user_status not in ['test_sent', 'vip', 'awaiting_proof'] and int(uid)!= ADMIN_ID:
-            bot.answer_callback_query(call.id, "❌ Əvvəlcə test et", show_alert=True)
+            bot.answer_callback_query(call.id, "❌ Əvvəlcə test siqnalını yoxlamalısınız", show_alert=True)
             bot.send_message(uid,
-                "⚠️ <b>VIP ŞƏRTİ</b>\n"
+                "⚠️ VIP AKTİVASİYA ŞƏRTİ\n"
                 "━━━━━━━━━━━━━━━━━━\n"
-                "VIP üçün əvvəl 1 pulsuz test etməlisən.\n\n"
-                "🧪 /start yaz və 'Pulsuz Test' seç.\n\n"
-                "Testdən sonra VIP açılacaq.", parse_mode='HTML'
+                "VIP sistemə keçməzdən əvvəl 1 pulsuz test siqnalını yoxlamalısınız.\n\n"
+                "🧪 Test siqnalı almaq üçün /start yazın və 'Test Siqnalı' düyməsini seçin.\n\n"
+                "Test etdikdən sonra VIP aktivasiya açılacaq."
             )
             return
 
@@ -158,22 +161,22 @@ def callback_logic(call):
         save_db(user_db)
 
         rules_text = (
-            "💎 <b>VIP AKTİVASİYA</b>\n"
+            "💎 VIP STATUS AKTİVASİYASI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
-            "⚡️ <b>2 ADIM - 95%+ DƏQİQ SİQNAL:</b>\n\n"
-            f"1️⃣ <b>YouTube Abunə</b>\n"
+            "⚡️ 95% dəqiq siqnallar üçün 2 addımı tamamla:\n\n"
+            f"1️⃣ YouTube Kanalımıza Abunə Ol\n"
             f"👉 {YOUTUBE_URL}\n"
-            f"🔔 Zınqırovu aç + Screenshot at 📸\n\n"
-            f"2️⃣ <b>Yeni 1WIN Hesab</b>\n"
+            f"🔔 Zınqırovu aç və ekran şəkli at 📸\n\n"
+            f"2️⃣ Yeni 1WIN Hesabı Aç\n"
             f"👉 {REGISTER_URL}\n"
-            f"🎁 Promo: <code>yatirimsahesi</code>\n"
-            f"✅ ID Screenshot at 📸\n\n"
+            f"🎁 Promo kod: yatirimsahesi\n"
+            f"✅ Qeydiyyatdan sonra ID-nin ekran şəklini at 📸\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "⏱ <i>2 şəkil = 2 dəqiqəyə VIP</i>\n"
-            "📌 <b>Vacib:</b> Hesab yeni olmalıdır\n"
-            "❗️ Şəkil aydın olsun"
+            "⏱ Hər iki şəkil gəldikdən 2 dəqiqə sonra VIP aktivləşir\n"
+            "📌 Vacib: Hesab yeni olmalıdır, köhnə hesab qəbul edilmir\n"
+            "❗️ Şəkillər tam ekran və aydın olsun"
         )
-        bot.send_message(uid, rules_text, disable_web_page_preview=True, parse_mode='HTML')
+        bot.send_message(uid, rules_text, disable_web_page_preview=True)
 
     elif call.data.startswith("approve_"):
         target_id = call.data.split("_")[1]
@@ -182,35 +185,35 @@ def callback_logic(call):
             user_db[target_id]['proofs'] = 0
             save_db(user_db)
             bot.send_message(target_id,
-                "🎉 <b>VIP AKTİVDİR</b>\n"
+                "🎉 VIP STATUS AKTİVLƏŞDİRİLDİ\n"
                 "━━━━━━━━━━━━━━━━━━\n"
-                "✅ Təbriklər, PRO status aldın!\n\n"
-                "📊 <b>İmtiyazlar:</b>\n"
-                "• 95%+ dəqiqlik\n"
-                "• 0.1 san gecikmə\n"
-                "• Prioritet siqnal\n\n"
-                "🔥 Növbəti siqnalı gözlə.", parse_mode='HTML'
+                "✅ Təbriklər. Siz premium istifadəçi statusu əldə etdiniz.\n\n"
+                "📊 İmtiyazlarınız:\n"
+                "• 95% dəqiqlik dərəcəsi\n"
+                "• 0.1 saniyə gecikmə\n"
+                "• Prioritet siqnal çatdırılması\n\n"
+                "🔥 Növbəti siqnal üçün bildiriş gözləyin."
             )
-            bot.answer_callback_query(call.id, "VIP edildi!")
-            bot.edit_message_text(f"✅ <b>TƏSDİQ</b>\nİstifadəçi: <code>{target_id}</code>", ADMIN_ID, call.message.message_id, parse_mode='HTML')
+            bot.answer_callback_query(call.id, "İstifadəçi VIP edildi!")
+            bot.edit_message_text(f"✅ TƏSDİQLƏNDİ\nİstifadəçi: {target_id}", ADMIN_ID, call.message.message_id)
 
     elif call.data.startswith("reject_"):
         target_id = call.data.split("_")[1]
-        user_db[target_id]['status'] = 'test_sent'
+        user_db[target_id]['status'] = 'test_sent' # Test etmiş sayılır, amma VIP deyil
         user_db[target_id]['proofs'] = 0
         save_db(user_db)
         bot.send_message(target_id,
-            "❌ <b>RƏDD EDİLDİ</b>\n"
+            "❌ SORĞU RƏDD EDİLDİ\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "Məlumatlar keçmədi.\n\n"
-            "<b>Səbəb:</b>\n"
-            "• Şəkil keyfiyyətsiz\n"
-            "• Abunə yoxdu\n"
-            "• Link bizimki deyil\n\n"
-            "🔄 Yenidən /start", parse_mode='HTML'
+            "Təqdim edilən məlumatlar yoxlamadan keçmədi.\n\n"
+            "Mümkün səbəblər:\n"
+            "• Şəkil keyfiyyəti qeyri-kafidir\n"
+            "• Abunəlik təsdiqlənmədi\n"
+            "• Qeydiyyat tərəfdaş linkindən aparılmayıb\n\n"
+            "🔄 Yenidən cəhd etmək üçün /start əmrindən istifadə edin."
         )
-        bot.answer_callback_query(call.id, "Rədd edildi!")
-        bot.edit_message_text(f"❌ <b>RƏDD</b>\nİstifadəçi: <code>{target_id}</code>", ADMIN_ID, call.message.message_id, parse_mode='HTML')
+        bot.answer_callback_query(call.id, "İstifadəçi rədd edildi!")
+        bot.edit_message_text(f"❌ RƏDD EDİLDİ\nİstifadəçi: {target_id}", ADMIN_ID, call.message.message_id)
 
 @bot.message_handler(commands=['test'])
 def admin_test(message):
@@ -219,38 +222,39 @@ def admin_test(message):
         args = message.text.split(maxsplit=2)
         target_id, vaxt = args[1], args[2]
 
+        # ADMİN ÖZÜNƏ TEST EDƏNDƏ LİMİT YOXDU
         if int(target_id)!= ADMIN_ID:
             user_db[target_id]['status'] = 'test_sent'
             user_db[target_id]['test_used'] = True
             save_db(user_db)
 
         bot.send_message(target_id,
-            "📡 <b>HAZIRLIQ</b>\n"
+            "📡 SİQNAL HAZIRLIQ MƏRHƏLƏSİ\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "⏳ Test 10-15 saniyəyə gəlir.\n\n"
-            "📲 Telefona bax.\n"
-            "⚠️ <i>Bu test siqnalıdır, gecikmə var.</i>", parse_mode='HTML'
+            "⏳ Test siqnalı 10-15 saniyə ərzində təqdim ediləcək.\n\n"
+            "📲 Xahiş: Cihazı nəzarətdə saxlayın.\n"
+            "⚠️ Qeyd: Bu siqnal nümunəvi gecikmə ilə göndərilir."
         )
 
-        bot.send_message(ADMIN_ID, f"✅ Hazırlıq göndərildi. 10 san sonra siqnal.\nUser: <code>{target_id}</code>", parse_mode='HTML')
+        bot.send_message(ADMIN_ID, f"✅ Hazırlıq bildirişi göndərildi. 10 saniyə sonra siqnal çatdırılacaq.\nİstifadəçi: {target_id}")
         time.sleep(10)
 
         msg = (
-            "🧪 <b>TEST SİQNAL</b>\n"
+            "🧪 TEST SİQNALI\n"
             "━━━━━━━━━━━━━━━━━━\n\n"
-            f"⏰ Vaxt: <b>{vaxt}</b>\n"
+            f"⏰ Vaxt Aralığı: {vaxt}\n"
             f"🎮 Oyun: Aviator\n"
             f"🎰 Platforma: 1WIN\n"
-            f"🔗 Keçid: {AVIATOR_URL}\n\n"
+            f"🔗 Oyun Mühitinə Keçid: {AVIATOR_URL}\n\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "🐌 <i>Test: ~10 san gecikmə</i>\n"
-            "💎 <b>VIP: 0.1 san gecikmə</b>\n\n"
-            "👇 Daimi siqnal üçün:"
+            "🐌 Qeyd: Bu siqnalda ~10 saniyə gecikmə müşahidə edildi.\n"
+            "💎 VIP sistemdə gecikmə cəmi 0.1 saniyə təşkil edir.\n\n"
+            "👇 Daimi və dəqiq siqnallar üçün:"
         )
         markup = telebot.types.InlineKeyboardMarkup()
-        markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktiv Et", callback_data="show_rules"))
-        bot.send_message(target_id, msg, reply_markup=markup, disable_web_page_preview=True, parse_mode='HTML')
-        bot.reply_to(message, "✅ Test bitdi")
+        markup.add(telebot.types.InlineKeyboardButton("💎 VIP Aktivasiya", callback_data="show_rules"))
+        bot.send_message(target_id, msg, reply_markup=markup, disable_web_page_preview=True)
+        bot.reply_to(message, "✅ Test prosesi tamamlandı")
     except Exception as e:
         bot.reply_to(message, f"❌ Xəta: {e}\nFormat: /test ID VAXT")
 
@@ -265,34 +269,35 @@ def handle_proofs(message):
 
         if proof_count == 1:
             bot.send_message(uid,
-                "📩 <b>1/2 QƏBUL</b> ✅\n"
+                "📩 SƏNƏD 1/2 QƏBUL EDİLDİ ✅\n"
                 "━━━━━━━━━━━━━━━━━━\n"
-                "2-ci şəkli göndər.\n"
-                "⏳ Yoxlanılır...", parse_mode='HTML'
+                "İkinci təsdiq sənədini göndərin.\n"
+                "⏳ Yoxlanış davam edir."
             )
             bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
-            bot.send_message(ADMIN_ID, f"📸 <b>SƏNƏD 1</b>\n👤 @{message.from_user.username}\n🆔 <code>{uid}</code>", parse_mode='HTML')
+            bot.send_message(ADMIN_ID, f"📸 SƏNƏD 1\n👤 İstifadəçi: @{message.from_user.username}\n🆔 ID: {uid}")
 
         elif proof_count >= 2:
             bot.send_message(uid,
-                "📩 <b>2/2 QƏBUL</b> ✅\n"
+                "📩 SƏNƏD 2/2 QƏBUL EDİLDİ ✅\n"
                 "━━━━━━━━━━━━━━━━━━\n"
-                "Məlumatlar yoxlanılır.\n"
-                "⏳ 1-2 dəqiqəyə nəticə.\n"
-                "🔔 Bildiriş gələcək.", parse_mode='HTML'
+                "Məlumatlar yoxlama mərkəzinə göndərildi.\n"
+                "⏳ Təsdiq prosesi 1-2 dəqiqə ərzində tamamlanacaq.\n"
+                "🔔 Nəticə barədə bildiriş alacaqsınız."
             )
             markup = telebot.types.InlineKeyboardMarkup(row_width=2)
             markup.add(
-                telebot.types.InlineKeyboardButton("✅ Təsdiq", callback_data=f"approve_{uid}"),
-                telebot.types.InlineKeyboardButton("❌ Rədd", callback_data=f"reject_{uid}")
+                telebot.types.InlineKeyboardButton("✅ Təsdiqlə", callback_data=f"approve_{uid}"),
+                telebot.types.InlineKeyboardButton("❌ Rədd et", callback_data=f"reject_{uid}")
             )
             bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
             bot.send_message(ADMIN_ID,
-                f"🔥 <b>YOXLAMA</b>\n"
+                f"🔥 YOXLAMA ÜÇÜN HAZIR\n"
                 f"━━━━━━━━━━━━\n"
-                f"👤 @{message.from_user.username}\n"
-                f"🆔 <code>{uid}</code>\n"
-                f"━━━━━━━━━━━━", reply_markup=markup, parse_mode='HTML'
+                f"👤 İstifadəçi: @{message.from_user.username}\n"
+                f"🆔 ID: {uid}\n"
+                f"━━━━━━━━━━━━",
+                reply_markup=markup
             )
 
 @bot.message_handler(commands=['aviator'])
@@ -302,11 +307,11 @@ def broadcast_signal(message):
     try:
         parts = message.text.split(maxsplit=1)
         if len(parts) < 2:
-            bot.reply_to(message, "❌ <b>Format:</b> <code>/aviator VAXT</code>\nNümunə: <code>/aviator 14:20-14:25</code>", parse_mode='HTML')
+            bot.reply_to(message, "❌ Format: /aviator VAXT\nNümunə: /aviator 14:20-14:25")
             return
         vaxt = parts[1]
-        vip_signal = "⚡️ <b>VIP SİQNAL</b> ⚡️\n━━━━━━━━━━━━━━━━━━\n\n✈️ <b>Aviator 1WIN</b>\n\n⏰ <b>GİRİŞ:</b> " + vaxt + "\n🎯 <b>HƏDƏF:</b> 10x+\n📊 <b>ŞANS:</b> 95%+\n⚡️ <b>PİNG:</b> 0.1s\n━━━━━━━━━━━━━━━━━━\n💰 <b>İNDİ GİR</b>"
-        locked_signal = "🔒 <b>SİQNAL KİLİDLİ</b>\n━━━━━━━━━━━━━━━━━━\n\n✈️ Aviator Siqnalı\n\n⏰ Giriş: <b>KİLİDLİ</b>\n❗️ Yüksək əmsal bu aralıqda\n📊 Proqnoz: 95%\n━━━━━━━━━━━━━━━━━━\n🔓 <b>Açmaq üçün:</b>\n1️⃣ Linklə yeni hesab aç\n2️⃣ Screenshot göndər"
+        vip_signal = "🔥 VIP TƏCİLİ SİQNAL 🔥\n━━━━━━━━━━━━━━━━━━\n\n✈️ Aviator Siqnalı\n\n⏰ GİRİŞ VAXTI: " + vaxt + "\n🎯 HƏDƏF: 10x - 99x\n📊 DƏQİQLİK: 95%\n⚡️ GECİKMƏ: 0.1 san\n━━━━━━━━━━━━━━━━━━\n💰 DƏRHAL GİRİŞ EDİN"
+        locked_signal = "🔒 YENİ SİQNAL 🔒\n─────────────────\n✈️ Aviator Siqnalı\n⏰ Giriş vaxtı: KİLİDLİ\n❗️ Əmsal bu dəqiqə aralığında qalxacaq\n📊 Proqnoz faizi: 95%\n─────────────────\n🔓 Giriş vaxtını açmaq üçün:\n1️⃣ Aşağıdakı linklə qeydiyyatdan keç\n2️⃣ Təsdiq şəkli göndər"
         markup = telebot.types.InlineKeyboardMarkup()
         markup.add(telebot.types.InlineKeyboardButton("🎁 Qeydiyyat", url=REGISTER_URL))
         sent_vip, sent_locked = 0, 0
@@ -315,15 +320,15 @@ def broadcast_signal(message):
                 continue
             try:
                 if data.get('status') == 'vip':
-                    bot.send_message(u_id, vip_signal, parse_mode='HTML')
+                    bot.send_message(u_id, vip_signal)
                     sent_vip += 1
                 else:
-                    bot.send_message(u_id, locked_signal, reply_markup=markup, parse_mode='HTML')
+                    bot.send_message(u_id, locked_signal, reply_markup=markup)
                     sent_locked += 1
                 time.sleep(0.05)
             except:
                 pass
-        bot.reply_to(message, f"✅ <b>PAYLANIŞ BİTDİ</b>\n\n💎 VIP: {sent_vip}\n🔒 Standart: {sent_locked}", parse_mode='HTML')
+        bot.reply_to(message, f"✅ PAYLANIŞ TAMAMLANDI\n\n💎 VIP: {sent_vip}\n🔒 Standart: {sent_locked}")
     except Exception as e:
         bot.reply_to(message, f"❌ Xəta: {e}")
 
@@ -333,10 +338,10 @@ def admin_message(message):
     try:
         args = message.text.split(maxsplit=2)
         target_id, text = args[1], args[2]
-        bot.send_message(target_id, f"📩 <b>ADMİN MESAJI</b>\n━━━━━━━━━━━━\n{text}", parse_mode='HTML')
-        bot.reply_to(message, f"✅ Göndərildi: <code>{target_id}</code>", parse_mode='HTML')
+        bot.send_message(target_id, f"📩 ADMİNİSTRASİYA BİLDİRİŞİ\n━━━━━━━━━━━━\n{text}")
+        bot.reply_to(message, f"✅ Mesaj {target_id} ID-li istifadəçiyə çatdırıldı")
     except:
-        bot.reply_to(message, "❌ Format: <code>/msg ID MƏTN</code>", parse_mode='HTML')
+        bot.reply_to(message, "❌ Format: /msg ID MƏTN")
 
 @bot.message_handler(commands=['ban'])
 def ban_user(message):
@@ -346,12 +351,12 @@ def ban_user(message):
         if target_id in user_db:
             user_db[target_id]['status'] = 'banned'
             save_db(user_db)
-            bot.send_message(target_id, "⛔ <b>BAN</b>\n\nHesabın bloklandı.", parse_mode='HTML')
-            bot.reply_to(message, f"✅ <code>{target_id}</code> banlandı", parse_mode='HTML')
+            bot.send_message(target_id, "⛔ GİRİŞ MƏHDUDLAŞDIRILDI\n\nHesabınız sistem tərəfindən bloklanıb.")
+            bot.reply_to(message, f"✅ {target_id} bloklandı")
         else:
-            bot.reply_to(message, "❌ User yoxdur")
+            bot.reply_to(message, "❌ İstifadəçi tapılmadı")
     except:
-        bot.reply_to(message, "❌ Format: <code>/ban ID</code>", parse_mode='HTML')
+        bot.reply_to(message, "❌ Format: /ban ID")
 
 @bot.message_handler(commands=['unban'])
 def unban_user(message):
@@ -360,24 +365,24 @@ def unban_user(message):
         target_id = message.text.split()[1]
         if target_id in user_db:
             user_db[target_id]['status'] = 'new'
-            user_db[target_id]['test_used'] = False
+            user_db[target_id]['test_used'] = False # Blokdan çıxanda test hüqu sıfırlanır
             save_db(user_db)
-            bot.send_message(target_id, "✅ <b>UNBAN</b>\n\nBan açıldı. /start yaz.", parse_mode='HTML')
-            bot.reply_to(message, f"✅ <code>{target_id}</code> unban", parse_mode='HTML')
+            bot.send_message(target_id, "✅ MƏHDUDİYYƏT LƏĞV EDİLDİ\n\nSistemə yenidən daxil olmaq üçün /start yazın.")
+            bot.reply_to(message, f"✅ {target_id} blokdan çıxarıldı")
     except:
-        bot.reply_to(message, "❌ Format: <code>/unban ID</code>", parse_mode='HTML')
+        bot.reply_to(message, "❌ Format: /unban ID")
 
 @bot.message_handler(commands=['users'])
 def list_users(message):
     if message.from_user.id!= ADMIN_ID: return
-    text = "👥 <b>USER LİST</b>\n━━━━━━━━━━━━\n"
+    text = "👥 İSTİFADƏÇİ SİYAHISI\n━━━━━━━━━━━━\n"
     for uid, data in user_db.items():
         status_emoji = {"vip":"💎", "banned":"⛔", "new":"🆕", "test_sent":"🧪", "awaiting_proof":"⏳"}.get(data.get('status'), "❓")
         name = data.get('name', 'Adsız').replace('_', ' ').replace('*', ' ')
         test_icon = "✓" if data.get('test_used') else "✗"
-        text += f"{status_emoji} <code>{uid}</code> | {name} | {data.get('status')} | Test:{test_icon}\n"
+        text += f"{status_emoji} {uid} | {name} | {data.get('status')} | Test:{test_icon}\n"
     if len(text) > 4000: text = text[:4000] + "\n..."
-    bot.reply_to(message, text, parse_mode='HTML')
+    bot.reply_to(message, text)
 
 @bot.message_handler(commands=['stat'])
 def stats(message):
@@ -388,14 +393,14 @@ def stats(message):
     new = len([u for u in user_db.values() if u.get('status') == 'new'])
     banned = len([u for u in user_db.values() if u.get('status') == 'banned'])
     bot.reply_to(message,
-        f"📊 <b>STATİSTİKA</b>\n"
+        f"📊 SİSTEM STATİSTİKASI\n"
         f"━━━━━━━━━━━━\n"
-        f"👥 Ümumi: <b>{total}</b>\n"
-        f"💎 VIP: <b>{vip}</b>\n"
-        f"🧪 Test: <b>{test}</b>\n"
-        f"🆕 Yeni: <b>{new}</b>\n"
-        f"⛔ Ban: <b>{banned}</b>\n"
-        f"━━━━━━━━━━━━", parse_mode='HTML'
+        f"👥 Ümumi istifadəçi: {total}\n"
+        f"💎 VIP: {vip}\n"
+        f"🧪 Test etmiş: {test}\n"
+        f"🆕 Yeni: {new}\n"
+        f"⛔ Bloklanmış: {banned}\n"
+        f"━━━━━━━━━━━━"
     )
 
 if __name__ == '__main__':
