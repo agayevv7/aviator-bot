@@ -299,7 +299,6 @@ def handle_proofs(message):
                 f"━━━━━━━━━━━━",
                 reply_markup=markup
             )
-
 @bot.message_handler(commands=['aviator'])
 def broadcast_signal(message):
     if message.from_user.id!= ADMIN_ID: return
@@ -352,7 +351,6 @@ def broadcast_signal(message):
         )
     except:
         bot.reply_to(message, "❌ Format: /aviator VAXT\nNümunə: /aviator 14:20-14:25")
-
 @bot.message_handler(commands=['msg'])
 def admin_message(message):
     if message.from_user.id!= ADMIN_ID: return
