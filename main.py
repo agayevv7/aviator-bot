@@ -305,16 +305,16 @@ def broadcast_signal(message):
     if message.from_user.id!= ADMIN_ID: return
     try:
         vaxt = message.text.split(maxsplit=1)[1]
-        vip_signal = (
-            "🔥 **VIP Siqnal**\n"
-            "─────────────────\n"
-            f"✈️ Aviator\n"
-            f"⏰ Giriş: `{vaxt}`\n"
-            f"🎯 Hədəf -- Bu dəqiqələrdə qırmızı əmsal gəcələk: `10x - 99x`\n"
-            f"📊 Dəqiqlik: `95%`\n"
-            f"⚡️ Gecikmə: `0.1s`\n"
-            "─────────────────\n"
-            "💰 **İndi giriş et**"
+                    vip_signal = (
+            "🔥 VIP TƏCİLİ SİQNAL 🔥\n"
+            "━━━━━━━━━━━━━━━━━━\n\n"
+            "✈️ Aviator Siqnalı\n\n"
+            f"⏰ GİRİŞ VAXTI: {vaxt}\n"
+            "🎯 HƏDƏF: 10x - 99x\n"
+            "📊 DƏQİQLİK: 95%\n"
+            "⚡️ GECİKMƏ: 0.1 san\n"
+            "━━━━━━━━━━━━━━━━━━\n"
+            "💰 DƏRHAL GİRİŞ EDİN"
         )
         locked_signal = (
             "🔥 YENİ SİQNAL 🔥\n"
